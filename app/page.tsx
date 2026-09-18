@@ -1,115 +1,83 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-
-export default function Home() {
-  const [text, setText] = useState("");
-  const [translated, setTranslated] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sourceLang, setSourceLang] = useState("English");
-  const [targetLang, setTargetLang] = useState("Hindi");
-
-  const handleTranslate = async () => {
-    if (!text) return;
-
-    setLoading(true);
-    try {
-      const res = await fetch("/api/translate-gemini", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text,
-          sourceLang,
-          targetLang,
-        }),
-      });
-
-      const data = await res.json();
-      setTranslated(data.translated);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const swapLanguages = () => {
-    setSourceLang(targetLang);
-    setTargetLang(sourceLang);
-    setText(translated);
-    setTranslated(text);
-  };
-
+export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-100 dark:bg-black p-6">
-      <main className="w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 space-y-6">
+    <main className="flex flex-col items-center text-center px-6 py-16 gap-12">
 
-        {/* Header */}
-        <h1 className="text-2xl font-bold text-center">
-          🌍 AI Translator
+      {/* 🔥 Hero Section */}
+      <section className="max-w-3xl">
+        <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+          Build Smart <span className="text-blue-600">AI Agents</span> for
+          Real-World Tasks
         </h1>
 
-        {/* Language Selection */}
-        <div className="flex items-center justify-between gap-4">
-          <select
-            value={sourceLang}
-            onChange={(e) => setSourceLang(e.target.value)}
-            className="p-2 border rounded-lg w-full"
-          >
-            <option>English</option>
-            <option>Hindi</option>
-            <option>French</option>
-          </select>
+        <p className="mt-4 text-gray-600 text-lg">
+          Automate workflows, integrate APIs, and create intelligent agents
+          that think, act, and deliver results.
+        </p>
 
-          <button
-            onClick={swapLanguages}
-            className="px-4 py-2 bg-blue-400 rounded-lg hover:bg-blue-500"
+        <div className="mt-6 flex gap-4 justify-center">
+          <Link
+            href="/agents"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
           >
-            ⇄
-          </button>
+            Explore Agents
+          </Link>
 
-          <select
-            value={targetLang}
-            onChange={(e) => setTargetLang(e.target.value)}
-            className="p-2 border rounded-lg w-full"
+          <Link
+            href="/docs"
+            className="border px-6 py-3 rounded-lg hover:bg-gray-100"
           >
-            <option>Hindi</option>
-            <option>English</option>
-            <option>French</option>
-          </select>
+            Documentation
+          </Link>
+        </div>
+      </section>
+
+      {/* ⚡ Features Section */}
+      <section className="grid md:grid-cols-3 gap-8 max-w-6xl w-full">
+
+        <div className="p-6 border rounded-xl shadow-sm">
+          <h3 className="font-semibold text-xl mb-2">🤖 Autonomous Agents</h3>
+          <p className="text-gray-600">
+            Build agents that can make decisions, execute tasks, and learn
+            from data.
+          </p>
         </div>
 
-        {/* Text Areas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          {/* Input */}
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter text..."
-            className="w-full h-40 p-4 border rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* Output */}
-          <div className="w-full h-40 p-4 border rounded-xl bg-zinc-50 dark:bg-zinc-800">
-            {loading ? (
-              <p className="text-gray-400">Translating...</p>
-            ) : translated ? (
-              <p>{translated}</p>
-            ) : (
-              <p className="text-gray-400">Translation will appear here</p>
-            )}
-          </div>
+        <div className="p-6 border rounded-xl shadow-sm">
+          <h3 className="font-semibold text-xl mb-2">🔗 API Integration</h3>
+          <p className="text-gray-600">
+            Connect your AI agents with external APIs, databases, and services.
+          </p>
         </div>
 
-        {/* Button */}
-        <button
-          onClick={handleTranslate}
-          className="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+        <div className="p-6 border rounded-xl shadow-sm">
+          <h3 className="font-semibold text-xl mb-2">⚡ Real-time Actions</h3>
+          <p className="text-gray-600">
+            Trigger actions instantly based on user input or system events.
+          </p>
+        </div>
+
+      </section>
+
+      {/* 🚀 CTA Section */}
+      <section className="bg-blue-600 text-white p-10 rounded-xl w-full max-w-4xl">
+        <h2 className="text-2xl md:text-3xl font-bold">
+          Start Building Your First AI Agent Today
+        </h2>
+
+        <p className="mt-3">
+          No complex setup. Just plug, play, and scale your intelligence.
+        </p>
+
+        <Link
+          href="/agents"
+          className="inline-block mt-5 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
         >
-          {loading ? "Translating..." : "Translate"}
-        </button>
-      </main>
-    </div>
+          Get Started
+        </Link>
+      </section>
+
+    </main>
   );
 }
