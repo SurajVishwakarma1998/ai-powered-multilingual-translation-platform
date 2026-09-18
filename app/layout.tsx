@@ -50,8 +50,8 @@ export default function RootLayout({
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-blue-200 hover:text-white">
-                  Services
+                <Link href="/chatbot" className="text-blue-200 hover:text-white">
+                  Chatbot
                 </Link>
               </li>
               <li>
